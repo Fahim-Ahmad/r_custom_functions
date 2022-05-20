@@ -5,9 +5,9 @@ I use this repository for recording the functions i write in R for my daily task
 
 It takes four arguments:
 
-    df1 and df2 - name of dataframes to compare
-    unique_id_df1 - unique identifier in df1
-    unique_id_df2 - unique identifier in df2
+  - df1 and df2 - name of dataframes to compare
+  - unique_id_df1 - unique identifier in df1
+  - unique_id_df2 - unique identifier in df2
 
 ```{r}
 dt1 <- dt2 <- mtcars
