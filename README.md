@@ -12,7 +12,10 @@ It takes four arguments:
 ```{r}
 dt1 <- dt2 <- mtcars
 dt1$id <- dt2$id <- rownames(mtcars)
-dt2$am[dt1$am == 1] <- 2
+dt2$am[dt2$am == 1] <- 2
+dt2$wt[dt2$wt > 100] <- 105
+dt2$cyl[dt2$cyl == 8] <- 7
+dt2 <- dt2[1:30, ]
 
 compare_df(df1 = dt1, df2 = dt2,
            unique_id_df1 = "id",
