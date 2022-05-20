@@ -1,7 +1,11 @@
 # Custom function for comparing two data frames
+library(dplyr)
+library(tidyr)
+library(stringr)
+
 compare_df <- function(df1, df2, unique_id_df1, unique_id_df2) {
   df1 <- df1 %>% 
-    select(KEY = unique_id_df1, everything()) %>% 
+    select(KEY = all_of(unique_id_df1), everything()) %>% 
     mutate(across(-KEY, function(x)
       x = as.character(x)
     )) %>% 
@@ -9,7 +13,7 @@ compare_df <- function(df1, df2, unique_id_df1, unique_id_df2) {
     mutate(value_1 = str_squish(value_1))
   
   df2 <- df2 %>% 
-    select(KEY = unique_id_df2, everything()) %>% 
+    select(KEY = all_of(unique_id_df2), everything()) %>% 
     mutate(across(-KEY, function(x)
       x = as.character(x)
     )) %>% 
@@ -20,8 +24,7 @@ compare_df <- function(df1, df2, unique_id_df1, unique_id_df2) {
   
   diff <- df_both %>% 
     filter((value_1 != value_2) | (is.na(value_1) & !is.na(value_2)) | (!is.na(value_1) & is.na(value_2))) %>%
-    # filter(value_1 != value_2) %>% 
-    rename(values_in_df1 = value_1, values_in_df2 = value_2)
+    rename(column_name = name, value_in_df1 = value_1, value_in_df2 = value_2)
   
   if(nrow(diff) == 0) {
     paste0("No difference in df1 and df2")
