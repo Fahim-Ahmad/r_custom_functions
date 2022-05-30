@@ -4,6 +4,12 @@ library(tidyr)
 library(stringr)
 
 compare_df <- function(df1, df2, unique_id_df1, unique_id_df2) {
+  
+  if ("KEY" %in% colnames(df1)) {
+    df1 <- df1 %>% 
+      rename(key = KEY)
+  }
+  
   df1 <- df1 %>% 
     select(KEY = all_of(unique_id_df1), everything()) %>% 
     mutate(across(-KEY, function(x)
@@ -11,6 +17,11 @@ compare_df <- function(df1, df2, unique_id_df1, unique_id_df2) {
     )) %>% 
     pivot_longer(-KEY, values_to = "value_1") %>% 
     mutate(value_1 = str_squish(value_1))
+  
+  if ("KEY" %in% colnames(df2)) {
+    df2 <- df2 %>% 
+      rename(key = KEY)
+  }
   
   df2 <- df2 %>% 
     select(KEY = all_of(unique_id_df2), everything()) %>% 
